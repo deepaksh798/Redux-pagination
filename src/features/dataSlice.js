@@ -14,6 +14,11 @@ export const cardData = createSlice({
     data: null,
     error: false,
   },
+  reducers: {
+    deleteItem: (state, action) => {
+      state.data = state.data.filter((_, index) => index !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
       console.log("dataSlice", action.payload);
@@ -23,7 +28,7 @@ export const cardData = createSlice({
     builder.addCase(fetchData.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(fetchData.rejected, () => {
+    builder.addCase(fetchData.rejected, (state, action) => {
       console.log("error -> ", action.payload);
       state.error = true;
     });
@@ -32,5 +37,6 @@ export const cardData = createSlice({
 
 // Action creators are generated for each case reducer function
 export { fetchData };
+export const { deleteItem } = cardData.actions;
 
 export default cardData.reducer;

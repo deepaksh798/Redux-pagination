@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from './features/dataSlice';
+import { fetchData, deleteItem } from './features/dataSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +30,10 @@ function App() {
       setPage(selectedPage);
   };
 
+  const handleDelete = (index) => {
+    dispatch(deleteItem(index));
+  }
+
   return (
     <>
       <div>
@@ -48,16 +52,22 @@ function App() {
                       {data.title}
                     </h5>
                     <p className="font-normal text-gray-700 dark:text-gray-400">{data.body}</p>
+                    <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                    onClick={() => handleDelete(index)}
+                    >Delete</button>
                   </div>
                 </a>
               ))}
             </div>
+
+            {/* Pagination */}
+
             {state.data.length > 0 && (
               <div className="pt-8">
-                <ul className="inline-flex -space-x-px text-base h-10">
+                <ul href='/' className="inline-flex -space-x-px text-base h-10">
                   <li>
                     <a
-                      className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-default"
                       onClick={() => selectPageHandler(page - 1)}
                     >
                       Previous
@@ -68,8 +78,8 @@ function App() {
                     <a
                       className={
                         page === i + 1
-                          ? 'flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-                          : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                          ? 'flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white cursor-default'
+                          : 'flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-default'
                       }
                       onClick={() => selectPageHandler(i + 1)}
                       key={i}
@@ -78,7 +88,7 @@ function App() {
                     </a>
                   ))}
                   <a
-                    className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-default"
                     onClick={() => selectPageHandler(page + 1)}
                   >
                     Next
